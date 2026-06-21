@@ -42,110 +42,79 @@ Administrador del sistema: configura el sistema.
 
 
 **3.Funcionalidades principales**
-¿Cuáles son las 3 funcionali
-Unordered lists use dashes, asterisks, or plus signs:
+- ¿Cuáles son las 3 funcionalidades más importantes que sí o sí querés que tenga la aplicación?
+  - Registrar y gestionar las muestras: con los atributos de código, tipo, cliente , fecha de ingreso, observaciones, estado, fecha de salida.
+  - Gestionar ensayos y cargar resultados: asociar ensayos (pH, conductividad, viscosidad, electroquímica,etc) a una muestra y cargar resultados.
+  - Seguimiento y trazabilidad del proceso completo: visualizar el estado de cada muestra: RECIBIDO, EN_ANALISIS,REVISION_PENDIENTE, APROBADO, REPORTADO,REPETIR
 
-- Import files from GitHub, Dropbox, or Google Drive
-- Export to Markdown, HTML, or PDF
-- Drag and drop files directly into the editor
+- ¿Qué funcionalidades considerás "deseables pero no indispensables?
+Informes de resultados en PDF, dashboard, búsqueda por filtros, notificaciones, carga masiva de datos CSV, historial tipo registro de auditoria de muestras. 
 
-Ordered lists are numbered automatically:
+-¿Qué **NO** debería hacer tu aplicación (cosas que están fuera de alcance)?
+Conexiones con equipos o instrumentos de laboratorio, facturacion o operaciones comerciales.
 
-1. Write your markdown
-2. Preview the rendered output
-3. Export or save to the cloud
+**4.Requerimientos básicos**
+- ¿Necesitará autenticación (usuario/contraseña,login)?
+Sí. Mas adelante se implementara autentificación JWT con Spring Security.
 
-Nested lists work too:
+-¿qué información mínima debería manejar tu aplicación (ej:usuarios, productos, cursos, reservas)?
+	Usuarios(nombre, usuario, contraseña, rol)
+	Muestras(código, tipo, cliente, fecha de ingreso, observaciones, estado, fecha de salida)
+	Cuando sean muestras propias, se nombrara en el atributo cliente "Uso Interno" o "Propio".
+	Si quisiera escalar la app, podria pensar en clases hijas de muestras (MuestraInterna con atributo proyectoAsociado y MuestraComercial con atributo cliente y costoServicio)
+	Ensayos(nombre, tipo de ensayo, descripción, fecha asignación, responsable)
+	Resultados( valores obtenidos, unidad, fecha, observaciones)
+	Equipos(nombre equipo, estado, fecha de calibración, mantenimiento)--VER
 
-- Cloud integrations
-  - GitHub repositories
-  - Dropbox folders
-  - Google Drive files
-  - OneDrive and Bitbucket
-- Local features
-  - Auto-save to browser storage
-  - Image paste from clipboard
+**5.Casos de uso/circuitos**
+- Describí **3 circuitos completos de principio a fin** que un usuario pueda realizar dentro de tu aplicación.
+Ejemplo:
+  1. Crear una cuenta nueva **->** recibir confirmación **->** poder iniciar sesión.
+  2. Cargar un producto/servicio **->** guardarlo en base de datos **->** mostralo en una lista.
+  3. Solicitar una acción (ej:reservar turno) **->** confirmarla **->** consultar historial de reservas.
 
-## Task Lists
+*Circuito 1* — Registro de muestra
+Usuario inicia sesión--> registra nueva muestra-->sistema genera código interno --> la muestra se guarda en el sistema--> aparece disponible para asignar ensayo
 
-- [x] Set up the editor
-- [x] Write some markdown
-- [ ] Connect a cloud service
-- [ ] Export the finished document
+*Circuito 2* — Carga de resultados
+Analista selecciona una muestra-->verifica que este asignado el ensayo correspondiente, si no se lo asigna--> carga resultado de ensayo de la muestra--> sistema actualiza el estado en EN_ANALISIS.
+	
+*Circuito 3* — Revisión y cierre
+Supervisor visualiza resultados cargados por el analista--> revisa los mismos--> aprueba o rechaza--> si aprueba , la muestra cambia a APROBADO--> Si rechaza, la muestra cambia a REPETIR--> Se reporta en informe cambia a REPORTADO --> se cierra el análisis. 
 
-## Links and Images
+**6.Expectativas y alcance temporal**
+- En 3 meses de desarrollo, ¿Qué te gustaría tener sí o sí terminado y funcionando?
+	Me gustaría tener funcionando:
+	• Ingreso por usuario y contraseña.
+	• Visualizar las muestras disponibles y registrar nuevas.
+	• Buscar por código, por tipo de ensayo, por responsable, por cliente a futuro.
+	• Cargar resultados, registro de todo el ciclo completo, emitir informe parciales y finales.
+	• Persistencia en base de datos.
 
-Link to any page with [inline links](https://dillinger.io) or use [reference-style links][dillinger].
+-¿Qué cosas podrías dejar para una *versión 2* futura?
+ 	Para una segunda versión futura incorporaría:
+		• API REST con Spring Boot 
+		• autenticación JWT con Spring Security 
+		• interfaz web con React 
+		• reportes PDF 
+		• dashboard de métricas 
+		• auditoría completa 
+		• gestión de equipos 
+		• calendario de calibraciones 
+		• despliegue con Docker 
 
-Images use a similar syntax:
+**7.Inspiración**
+- ¿Conocés alguna aplicación o sistema similar al que querés hacer? ¿Qué te gusta de ella y qué mejorarías?
+La inspiración principal proviene de los sistemas LIMS (Laboratory Information Management System) utilizados en laboratorios de análisis químico, ambiental e investigación.
+Lo que resulta valioso de estos sistemas es: orden, trazabilidad, historial de resultados, centralización de datos.
+Lo que se busca mejorar con LabHelper es: interfaz más simple de usar, menor complejidad para labo pequeños o adaptado para estudiantes de grado o doctorado, facilidad de uso, posibilidad de escalar
 
-![Placeholder](https://placehold.co/600x200/2B2F36/35D7BB?text=Your+Image+Here)
+**8.Comentarios**
+Tené en cuenta que, al desarrollar una aplicación completa (persistencia-modelo-vista) en un período de 3 a 4 meses, habrá cietas tecnologías o funcionalidades que quedarán fuera del alcance debido a su complejidad o a los recursos que requieren. Algunos ejemplos pueden ser: el envío automático de correos electrónicos, integraciones con redes sociales o el uso de APIs de inteligencia artificial, entre otras.
 
-[dillinger]: https://dillinger.io
-
-## Blockquotes
-
-> The art of writing is the art of discovering what you believe.
->
-> — Gustave Flaubert
-
-Blockquotes can contain other markdown elements:
-
-> **Tip:** Use `Cmd+Shift+Z` to enter zen mode for distraction-free writing.
-
-## Code
-
-Fenced code blocks support syntax highlighting:
-
-```javascript
-function greet(name) {
-  return `Hello, ${name}.`;
-}
-
-console.log(greet("world"));
-```
-
-```python
-def fibonacci(n):
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a
-```
-
-## Tables
-
-| Shortcut | Action |
-|----------|--------|
-| `⌘ ⇧ Z` | Toggle zen mode |
-| `Escape` | Exit zen mode |
-| `?` | Keyboard shortcuts |
-
-Tables support alignment:
-
-| Feature | Status | Notes |
-|:--------|:------:|------:|
-| Markdown editing | Active | Monaco-powered |
-| Live preview | Active | Scroll-synced |
-| Cloud sync | Available | 5 providers |
-| PDF export | Available | Server-rendered |
-
-## Footnotes
-
-Dillinger supports extended markdown syntax including footnotes[^1] and definition lists.
-
-[^1]: Footnotes appear at the bottom of the rendered preview.
-
-## Math
-
-Inline math: $E = mc^2$
-
-Block equations:
-
-$$
-\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
-$$
-
----
-
-*Your documents save automatically. Start writing.*
+La primera versión se desarrollará como aplicación de Spring con Java con elobjetivo de enfocarse en:
+		• modelado orientado a objetos 
+		• lógica de negocio 
+		• estructura del proyecto 
+		• persistencia de datos 
+Luego evolucionará hacia una API REST, JWT con Spring Security, capa de vista con React
