@@ -1,7 +1,5 @@
 package ar.com.codigomariano.labHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,6 +12,7 @@ public class Main {
 	private static String cliente;
 	private static String observaciones;
 	private static String estadoDeMuestra;
+	private static String observacionesFinales;
 	
 	private final static String[] estado=new String[] {"RECIBIDO","EN_ANALISIS","REVISION_PENDIENTE","APROBADO","REPETIR","REPORTADO"};
 	public static void main(String[] args) {
@@ -51,8 +50,9 @@ public class Main {
 			int opcion=menu(scanner);
 			if(opcion==1) {
 				registrarMuestra(scanner);
+				estadoDeMuestra=Main.estado[0];
 			}else if(opcion==2) {
-				seleccionarEstado(scanner);
+				estadoDeMuestra=seleccionarEstado(scanner);
 			}else if(opcion==3) {
 				verMuestra();
 			}else if(opcion==4) {
@@ -76,26 +76,22 @@ public class Main {
 		
 		
 		private static String seleccionarEstado(Scanner sc) {
-			String estadoMuestra=null;
-				imprimir("------------------------------------------------------");
-				imprimir("1.RECIBIDO");
-				imprimir("2.EN_ANALISIS");
-				imprimir("3.REVISION_PENDIENTE");
-				imprimir("4.APROBADO");
-				imprimir("5.REPETIR");
-				imprimir("6.REPORTADO");
-				imprimir("------------------------------------------------------");
-				System.out.print("Seleccione una opcion: ");
-				int seleccionada=sc.nextInt();
-				sc.nextLine();
-				if (seleccionada==1) estadoMuestra=Main.estado[0];
-				if (seleccionada==2) estadoMuestra=Main.estado[1];
-				if (seleccionada==3) estadoMuestra=Main.estado[2];
-				if (seleccionada==4) estadoMuestra=Main.estado[3];
-				if (seleccionada==5) estadoMuestra=Main.estado[4];
-				if (seleccionada==6) estadoMuestra=Main.estado[5];
-			return estadoMuestra;
-			
+		    imprimir("------------------------------------------------------");
+		    imprimir("¿En que estado se encuentra la muestra?:");
+		    for (int i = 0; i < estado.length; i++) {
+		        imprimir((i + 1) + "." + estado[i]);
+		    }
+		    imprimir("------------------------------------------------------");
+		    System.out.print("Seleccione una opcion: ");
+		    int seleccionada = sc.nextInt();
+		    sc.nextLine();
+
+		    if (seleccionada >= 1 && seleccionada <= estado.length) {
+		        return estado[seleccionada - 1];
+		    } else {
+		        System.out.println("Opción inválida. No se cambió el estado.");
+		        return estadoDeMuestra; 
+		    }
 		}
 		
 		
@@ -106,7 +102,6 @@ public class Main {
 			tipoDeMuestra=datosIngresados("Ingrese tipo de muestra: ", sc);
 			cliente=datosIngresados("Nombre del cliente: ",sc);
 			observaciones=datosIngresados("Observaciones a considerar: ",sc);
-			estadoDeMuestra=seleccionarEstado(sc);
 		}
 		
 
@@ -124,9 +119,11 @@ public class Main {
 			String ensayo=datosIngresados("Ingrese el tipo de ensayo: ", sc);
 			String resultado=datosIngresados("Ingrese los resultados obtenidos: ", sc);
 			estadoDeMuestra=Main.estado[2];
+			observacionesFinales=datosIngresados("Observaciones: ",sc);
+			imprimir("Resultado agregado correctamente");
 			imprimir("Ensayo :"+ ensayo);
 			imprimir("Resultado: "+resultado);
-			imprimir("Resultado agregado correctamente");
+			imprimir("Observaciones: "+ observacionesFinales);
 			imprimir("Estado actualizado: "+ estadoDeMuestra);
 		}
 
