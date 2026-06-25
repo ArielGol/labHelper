@@ -2,133 +2,232 @@ package ar.com.codigomariano.labHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
+import ar.com.codigomariano.domain.Cliente;
+import ar.com.codigomariano.domain.Ensayo;
+import ar.com.codigomariano.domain.Muestra;
+import ar.com.codigomariano.domain.Resultado;
+import ar.com.codigomariano.domain.Usuario;
+import ar.com.codigomariano.enums.EstadoMuestra;
+import ar.com.codigomariano.enums.TipoCliente;
 
 
 public class Main {
 	
-	private static String codigo;
-	private static String tipoDeMuestra;
-	private static String cliente;
-	private static String observaciones;
-	private static String estadoDeMuestra;
-	
-	private final static String[] estado=new String[] {"RECIBIDO","EN_ANALISIS","REVISION_PENDIENTE","APROBADO","REPETIR","REPORTADO"};
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		menuPrincipal(scanner);
-		scanner.close();
+	private static Scanner scanner = new Scanner(System.in);
+    private static List<Muestra> muestras = new ArrayList<>();
+    private static List<Ensayo> ensayos = new ArrayList<>();
+    private static int contadorMuestras = 1;
 
-	}
-	
-	//Menu Principal
+    public static void main(String[] args) {
 
-	private static int menu(Scanner sc) {
-		imprimir("------------------------------------------------------");
-		imprimir("\u001B[31m"+"\u001B[47m"+"****Bienvenido al sistema LabHelper****"+"\u001B[0m");
-		imprimir("------------------------------------------------------");
-		imprimir("1.Registrar muestra");
-		imprimir("2.Editar estado de muestra");
-		imprimir("3.Ver muestra ingresada");
-		imprimir("4.Cargar resultado");
-		imprimir("0.Salir del sistema");
-		imprimir("------------------------------------------------------");
-		System.out.print("Seleccione una opcion: ");
-		int opcion=sc.nextInt();
-		sc.nextLine();
-		return opcion;
-	}
-	
-	public static void imprimir(String mensaje) {
-		System.out.println(mensaje);
-	}
-	
-	private static void menuPrincipal(Scanner scanner) {
-		boolean salir=false;
-		while(!salir) {
-			int opcion=menu(scanner);
-			if(opcion==1) {
-				registrarMuestra(scanner);
-			}else if(opcion==2) {
-				seleccionarEstado(scanner);
-			}else if(opcion==3) {
-				verMuestra();
-			}else if(opcion==4) {
-				cargarResultado(scanner);
-			}else if(opcion==0) {
-				System.out.println("Saliendo del programa");
-				salir=true;					
-			}else {
-				System.out.println("Opción invalida.Intente nuevamente");
-			}
-		
-		}
-	}
+        cargarEnsayosIniciales();
+        menuPrincipal();
+    }
 
-		private static String datosIngresados(String texto,Scanner scanner) {
-			String dato;
-			System.out.print(texto);
-			dato=scanner.nextLine();
-			return dato;
-		}
-		
-		
-		private static String seleccionarEstado(Scanner sc) {
-			String estadoMuestra=null;
-				imprimir("------------------------------------------------------");
-				imprimir("1.RECIBIDO");
-				imprimir("2.EN_ANALISIS");
-				imprimir("3.REVISION_PENDIENTE");
-				imprimir("4.APROBADO");
-				imprimir("5.REPETIR");
-				imprimir("6.REPORTADO");
-				imprimir("------------------------------------------------------");
-				System.out.print("Seleccione una opcion: ");
-				int seleccionada=sc.nextInt();
-				sc.nextLine();
-				if (seleccionada==1) estadoMuestra=Main.estado[0];
-				if (seleccionada==2) estadoMuestra=Main.estado[1];
-				if (seleccionada==3) estadoMuestra=Main.estado[2];
-				if (seleccionada==4) estadoMuestra=Main.estado[3];
-				if (seleccionada==5) estadoMuestra=Main.estado[4];
-				if (seleccionada==6) estadoMuestra=Main.estado[5];
-			return estadoMuestra;
-			
-		}
-		
-		
-		
-		private static void registrarMuestra(Scanner sc) {
-			Random r = new Random();
-			codigo="AQ"+r.nextInt(0000, 1000);
-			tipoDeMuestra=datosIngresados("Ingrese tipo de muestra: ", sc);
-			cliente=datosIngresados("Nombre del cliente: ",sc);
-			observaciones=datosIngresados("Observaciones a considerar: ",sc);
-			estadoDeMuestra=seleccionarEstado(sc);
-		}
-		
+    private static void menuPrincipal() {
 
-		private static void verMuestra() {
-			imprimir("------------------------------------------------------");
-			imprimir("Código: "+codigo);
-			imprimir("Tipo: "+tipoDeMuestra);
-			imprimir("Cliente: "+cliente);
-			imprimir("Estado: "+estadoDeMuestra);
-			imprimir("------------------------------------------------------");
-			
-		}
-		private static void cargarResultado(Scanner sc) {
-			verMuestra();
-			String ensayo=datosIngresados("Ingrese el tipo de ensayo: ", sc);
-			String resultado=datosIngresados("Ingrese los resultados obtenidos: ", sc);
-			estadoDeMuestra=Main.estado[2];
-			imprimir("Ensayo :"+ ensayo);
-			imprimir("Resultado: "+resultado);
-			imprimir("Resultado agregado correctamente");
-			imprimir("Estado actualizado: "+ estadoDeMuestra);
-		}
+        boolean salir = false;
 
+        while (!salir) {
+
+            System.out.println("\n===== LABHELPER =====");
+            System.out.println("1. Registrar muestra");
+            System.out.println("2. Listar muestras");
+            System.out.println("3. Cambiar estado");
+            System.out.println("4. Cargar resultado");
+            System.out.println("5. Ver resultados");
+            System.out.println("0. Salir");
+
+            int opcion = Integer.parseInt(scanner.nextLine());
+
+            switch (opcion) {
+
+                case 1 -> registrarMuestra();
+
+                case 2 -> listarMuestras();
+
+                case 3 -> cambiarEstado();
+
+                case 4 -> cargarResultado();
+
+                case 5 -> verResultados();
+
+                case 0 -> salir = true;
+
+                default -> System.out.println("Opción inválida");
+            }
+        }
+    }
+
+    private static void registrarMuestra() {
+
+        String codigo = "AQ-" + contadorMuestras++;
+
+        System.out.print("Tipo de muestra: ");
+        String tipo = scanner.nextLine();
+
+        System.out.print("Cliente: ");
+        String nombreCliente = scanner.nextLine();
+
+        System.out.print("Observaciones: ");
+        String observaciones = scanner.nextLine();
+
+        Cliente cliente = new Cliente(
+                1L,
+                nombreCliente,
+                "",
+                TipoCliente.EMPRESA
+        );
+
+        Muestra muestra = new Muestra(
+                codigo,
+                tipo,
+                cliente,
+                observaciones
+        );
+
+        muestras.add(muestra);
+
+        System.out.println("Muestra registrada.");
+    }
+
+    private static void listarMuestras() {
+
+        for (Muestra muestra : muestras) {
+            System.out.println(muestra);
+        }
+    }
+
+    private static void cambiarEstado() {
+
+        listarMuestras();
+
+        System.out.print("Código de muestra: ");
+
+        String codigo = scanner.nextLine();
+
+        Muestra muestra = buscarMuestra(codigo);
+
+        if (muestra == null) {
+            return;
+        }
+
+        EstadoMuestra[] estados = EstadoMuestra.values();
+
+        for (int i = 0; i < estados.length; i++) {
+            System.out.println((i + 1) + ". " + estados[i]);
+        }
+
+        int opcion = Integer.parseInt(scanner.nextLine());
+
+        muestra.setEstado(estados[opcion - 1]);
+    }
+
+    private static void cargarResultado() {
+
+        listarMuestras();
+
+        System.out.print("Código de muestra: ");
+
+        String codigo = scanner.nextLine();
+
+        Muestra muestra = buscarMuestra(codigo);
+
+        if (muestra == null) {
+            return;
+        }
+
+        for (int i = 0; i < ensayos.size(); i++) {
+
+            System.out.println(
+                    (i + 1)
+                    + ". "
+                    + ensayos.get(i).getNombre()
+            );
+        }
+
+        int opcion = Integer.parseInt(scanner.nextLine());
+
+        Ensayo ensayo = ensayos.get(opcion - 1);
+
+        System.out.print("Valor obtenido: ");
+
+        String valor = scanner.nextLine();
+
+        System.out.print("Observaciones: ");
+
+        String observacion = scanner.nextLine();
+
+        Resultado resultado = new Resultado(
+                muestra,
+                ensayo,
+                valor,
+                observacion
+        );
+
+        muestra.getResultados().add(resultado);
+
+        System.out.println("Resultado agregado.");
+    }
+
+    private static void verResultados() {
+
+        System.out.print("Código de muestra: ");
+
+        String codigo = scanner.nextLine();
+
+        Muestra muestra = buscarMuestra(codigo);
+
+        if (muestra == null) {
+            return;
+        }
+
+        for (Resultado resultado : muestra.getResultados()) {
+            System.out.println(resultado);
+        }
+    }
+
+    private static Muestra buscarMuestra(String codigo) {
+
+        for (Muestra muestra : muestras) {
+
+            if (muestra.getCodigo().equalsIgnoreCase(codigo)) {
+                return muestra;
+            }
+        }
+
+        System.out.println("Muestra no encontrada.");
+
+        return null;
+    }
+
+    private static void cargarEnsayosIniciales() {
+
+        ensayos.add(
+                new Ensayo(
+                        "pH",
+                        "pH",
+                        "Determinación de pH"
+                )
+        );
+
+        ensayos.add(
+                new Ensayo(
+                        "Conductividad",
+                        "uS/cm",
+                        "Conductividad eléctrica"
+                )
+        );
+
+        ensayos.add(
+                new Ensayo(
+                        "Viscosidad",
+                        "cP",
+                        "Viscosidad"
+                )
+        );
+    }
 
 }

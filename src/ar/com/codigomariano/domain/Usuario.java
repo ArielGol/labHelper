@@ -1,6 +1,7 @@
 package ar.com.codigomariano.domain;
 
 import java.util.Set;
+import ar.com.codigomariano.enums.Rol;
 
 
 public class Usuario {
