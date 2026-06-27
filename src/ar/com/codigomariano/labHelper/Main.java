@@ -81,12 +81,7 @@ public class Main {
                 TipoCliente.EMPRESA
         );
 
-        Muestra muestra = new Muestra(
-                codigo,
-                tipo,
-                cliente,
-                observaciones
-        );
+        Muestra muestra = new Muestra(codigo,tipo,cliente,observaciones);
 
         muestras.add(muestra);
 
