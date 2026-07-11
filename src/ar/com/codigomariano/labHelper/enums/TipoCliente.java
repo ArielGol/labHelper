@@ -1,4 +1,4 @@
-package ar.com.codigomariano.enums;
+package ar.com.codigomariano.labHelper.enums;
 
 public enum TipoCliente {
 

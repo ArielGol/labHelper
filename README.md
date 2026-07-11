@@ -11,6 +11,6 @@ Sistema de gestión de laboratorio para registrar, organizar y dar seguimiento a
 
 
 ### DIAGRAMA UML
-**LabHelper_v1**
+**LabHelper_v4**
 
-![UML LabHelper_v1](LabHelper_v1.png)
+![UML LabHelper_v4](LabHelper_v4.png)
