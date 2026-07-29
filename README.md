@@ -3,7 +3,7 @@ Sistema de gestión de laboratorio para registrar, organizar y dar seguimiento a
 ---
 **PROGRAMA INTENSIVO- CODIGO MARIANO**
 ---
-## Tercera semama
+## Tercera semana
 ### Objetivos
 
 - [x] Incorporar Maven 
