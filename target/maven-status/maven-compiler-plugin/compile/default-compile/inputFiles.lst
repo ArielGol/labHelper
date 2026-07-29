@@ -1,0 +1,15 @@
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\App.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Cliente.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Ensayo.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Imagen.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Muestra.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\NotaTexto.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Persistible.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Resultado.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Usuario.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\domain\Validacion.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\enums\EstadoEnsayo.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\enums\EstadoMuestra.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\enums\Rol.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\enums\TipoCliente.java
+C:\workspace-codigomariano\labHelper\src\main\java\ar\com\codigomariano\labHelper\enums\TipoEnsayo.java

@@ -3,14 +3,14 @@ Sistema de gestión de laboratorio para registrar, organizar y dar seguimiento a
 ---
 **PROGRAMA INTENSIVO- CODIGO MARIANO**
 ---
-## Segunda semana
+## Tercera semama
 ### Objetivos
 
-- [x] Diagrama UML 
-- [x] Incorporar las entidades de negocio (clases).
+- [x] Incorporar Maven 
+- [x] Clase Main que implemente el circuito planteado
 
 
 ### DIAGRAMA UML
-**LabHelper_v4**
+**LabHelper_v5**
 
-![UML LabHelper_v4](labHelper_v4.png)
+![UML LabHelper_v5](src/main/resources/labHelper_v5.png)

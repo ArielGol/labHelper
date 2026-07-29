@@ -6,7 +6,7 @@ import java.util.List;
 import ar.com.codigomariano.labHelper.domain.*;
 import ar.com.codigomariano.labHelper.enums.*;
 
-public class Main {
+public class App {
     
     private static List<Usuario> tablaUsuarios = new ArrayList<>();
     private static List<Muestra> tablaMuestras = new ArrayList<>();
