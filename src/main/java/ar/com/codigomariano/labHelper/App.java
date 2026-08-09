@@ -23,7 +23,7 @@ public class App {
             
             Rol rolActivo = usuarioLogueado.getRoles().iterator().next(); 
             
-            if (rolActivo == Rol.CLIENTE) {
+            if (rolActivo.getNombre().equalsIgnoreCase("cliente")) {
                 mostrarPortalCliente(scanner, usuarioLogueado);
             } else {
                 mostrarDashboard(scanner, usuarioLogueado);
@@ -35,12 +35,18 @@ public class App {
     }
 
     private static void inicializarDatosMaestros() {
-        Usuario analista = new Usuario(1L, "juan.p", "Juan Perez", "juan@gmail.com", "123");
-        analista.agregarRol(Rol.ANALISTA);
-        Usuario supervisor = new Usuario(2L, "carlos.sup", "Carlos Super", "carlos@gmail.com", "456");
-        supervisor.agregarRol(Rol.SUPERVISOR);
-        Usuario clienteUser = new Usuario(3L, "mary", "Maria Milagros", "maria@gmail.com", "567");
-        clienteUser.agregarRol(Rol.CLIENTE);
+    	Password analistaPass=new Password(1L,"123");
+        Usuario analista = new Usuario(1L, "juan.p", "Juan Perez", "juan@gmail.com", analistaPass);
+        Rol analist =new Rol(1L,"Analista");
+        analista.agregarRol(analist);
+        Password supervisorPass=new Password(2L, "456");
+        Usuario supervisor = new Usuario(2L, "carlos.sup", "Carlos Super", "carlos@gmail.com", supervisorPass);
+        Rol superv=new Rol(2L,"Supervisor");
+        supervisor.agregarRol(superv);
+        Password clientePass=new Password(3L,"567");
+        Usuario clienteUser = new Usuario(3L, "mary", "Maria Milagros", "maria@gmail.com", clientePass);
+        Rol client=new Rol(3L,"Cliente");
+        clienteUser.agregarRol(client);
         
         tablaUsuarios.add(analista);
         tablaUsuarios.add(supervisor);
@@ -48,8 +54,9 @@ public class App {
 
         Cliente c1 = new Cliente(101L, "CREAS", TipoCliente.EMPRESA, clienteUser);
         tablaClientes.add(c1);
-
-        Muestra m1 = new Muestra(1L, c1, new NotaTexto("Placas de titanio porosas para electrolizador alcalino"));
+        
+        NotaTexto notaMuestra=new NotaTexto(1L,"Placas de titanio porosas para electrolizador alcalino");
+        Muestra m1 = new Muestra(1L, c1,notaMuestra );
         Ensayo e1 = new Ensayo(502L, "Voltametría Cíclica", TipoEnsayo.INSTRUMENTAL, analista);
         e1.agregarResultado(new Resultado(1L, "Potencial Ep", "V", 0.40, 0.55));
         e1.getResultadoXId(1L).setValorObtenido(0.48); 
@@ -60,13 +67,14 @@ public class App {
     }
     //PORTAL DE ACCESO
     private static Usuario portalAcceso(Scanner sc) {
+    	Password password=new Password(null,null);
         System.out.println("\n+-----------------------------------------+");
         System.out.println("               LABHELPER v1.0            ");
         System.out.println("+-----------------------------------------+");
         System.out.print("Usuario (Email): ");
         String email = sc.next();
         System.out.print("Contraseña: ");
-        String password = sc.next();
+        password.setValor(sc.next());
         
         for (Usuario u : tablaUsuarios) {
             if (u.getEmail().equalsIgnoreCase(email) && u.autenticarUser(password)) {
@@ -113,7 +121,7 @@ public class App {
         
         
         Cliente cliente = tablaClientes.get(0); 
-        Muestra nueva = new Muestra((long)(tablaMuestras.size()+1), cliente, new NotaTexto(desc));
+        Muestra nueva = new Muestra((long)(tablaMuestras.size()+1), cliente, null);
         
       
         Ensayo ensayoInicial = new Ensayo((long)(tablaMuestras.size()+500), "pH de Suspensión", TipoEnsayo.FISICOQUIMICO, tablaUsuarios.get(0));
@@ -181,11 +189,11 @@ public class App {
                     if (sc.next().equalsIgnoreCase("s")) {
                         sc.nextLine();
                         System.out.print("  Escriba la observación: ");
-                        rSelected.setObservaciones(new NotaTexto(sc.nextLine()));
+                        rSelected.setObservaciones(new NotaTexto(2L,sc.nextLine()));
                     }
                 }
             } else if (op == 2) {
-                fichaEnsayoPestania2(sc, ensayo);
+                fichaEnsayoPestania2(sc, ensayo, null);
             } else if (op == 3) {
                 ensayo.finalizarEnsayo();
                 break;
@@ -196,13 +204,13 @@ public class App {
     }
 
     // FICHA DEL ENSAYO - PESTAÑA 2
-    private static void fichaEnsayoPestania2(Scanner sc, Ensayo ensayo) {
+    private static void fichaEnsayoPestania2(Scanner sc, Ensayo ensayo, Resultado resultado) {
         System.out.println("\n  =========================================================================");
         System.out.println("    [ PESTAÑA 2: ADJUNTOS INSTRUMENTALES ]");
         System.out.println("  =========================================================================");
-        System.out.println("    Gráficos actualmente adjuntos: " + ensayo.getGraficos().size());
+        System.out.println("    Gráficos actualmente adjuntos: " + resultado.getGraficos().size());
         
-        for (Imagen img : ensayo.getGraficos()) {
+        for (Imagen img : resultado.getGraficos()) {
             System.out.println("    - Archivo: " + img.getNombre() + " (" + img.getContentType() + ")");
         }
         System.out.println("  -------------------------------------------------------------------------");
@@ -213,9 +221,9 @@ public class App {
             
             // Simulación física de carga convirtiendo texto plano a bytes
             byte[] bytesSimulados = "[0.1V:1.5mA,0.2V:3.0mA]".getBytes();
-            Imagen nuevaImagen = new Imagen((long)(ensayo.getGraficos().size()+1), nombreArch, bytesSimulados);
+            Imagen nuevaImagen = new Imagen((long)(resultado.getGraficos().size()+1), nombreArch, bytesSimulados);
             
-            ensayo.agregarGrafico(nuevaImagen); // Composición ejecutada
+            resultado.agregarGrafico(nuevaImagen); // Composición ejecutada
         }
         System.out.println("    Saliendo de la Pestaña 2... Volviendo a la pantalla operativa.");
     }
@@ -227,7 +235,7 @@ public class App {
         
         for (Muestra m : tablaMuestras) {
             for (Ensayo e : m.getEnsayosAsignados()) {
-                if (e.getEstado() == EstadoEnsayo.POR_VALIDAR) {
+                if (e.getEstado() == Estado.POR_VALIDAR) {
                     porValidar.add(e);
                     System.out.printf("[%d] Ensayo: %s | Muestra Origen: %s\n", 
                         porValidar.size(), e.getNombre(), m.getCodigoMuestra());

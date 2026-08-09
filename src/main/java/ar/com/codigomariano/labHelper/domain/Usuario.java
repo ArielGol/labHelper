@@ -1,27 +1,32 @@
 package ar.com.codigomariano.labHelper.domain;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import ar.com.codigomariano.labHelper.enums.Rol;
-
 
 public class Usuario extends Persistible {
-    private String nombreUsuario;
     private String email;
-    private String password;
+    private Password contrasenia;
     private Set<Rol> roles;
     private String nombreCompleto;
+    private String nombreUsuario;
+    private LocalDateTime fechaCreacion;
 
-    public Usuario(Long id,String userName,String nombre,String email,String password){
+    public Usuario(Long id,String userName,String nombre,String email,Password password){
     	super(id);
     	this.nombreUsuario=userName;
     	this.nombreCompleto=nombre;
     	this.email=email;
-    	this.password=password;
+    	this.contrasenia=password;
     	this.roles=new HashSet<>();
+    	this.fechaCreacion=LocalDateTime.now();
     }
     
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
 	public void agregarRol(Rol rol) {
     	this.roles.add(rol);
     }
@@ -32,8 +37,8 @@ public class Usuario extends Persistible {
     	return roles;
     }
     
-    public boolean autenticarUser(String password) {
-    	return this.password.equals(password);
+    public boolean autenticarUser(Password password) {
+    	return this.contrasenia.equals(password);
     }
     
     public boolean tieneRol(Rol rol) {

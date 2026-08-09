@@ -1,9 +1,10 @@
 package ar.com.codigomariano.labHelper.enums;
 
-public enum EstadoMuestra {
-    RECIBIDA,
+public enum Estado {
+    RECIBIDO,
     EN_ANALISIS,
+    COMPLETADO,
     POR_VALIDAR,
-    COMPLETADA,
-    REPORTADA
+    APROBADO,
+    RECHAZADO
 }

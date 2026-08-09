@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.com.codigomariano.labHelper.enums.EstadoEnsayo;
+import ar.com.codigomariano.labHelper.enums.Estado;
 import ar.com.codigomariano.labHelper.enums.TipoEnsayo;
 
 
@@ -14,33 +14,39 @@ public class Ensayo extends Persistible {
     private NotaTexto descripcion;
     private LocalDate fechaEjecucion;
     private String equipoUsado;
-    private EstadoEnsayo estado;
+    private Estado estado;
     private List<Resultado> resultados;
     private TipoEnsayo tipo;
-    private List<Imagen> graficos;
     private Usuario responsable;
+    private List<Muestra> muestras;
    
 
     public Ensayo(Long id, String nombre, TipoEnsayo tipo, Usuario analista) {
     	super(id);
     	this.nombre=nombre;
     	this.fechaEjecucion=LocalDate.now();
-    	this.estado=EstadoEnsayo.PENDIENTE;
+    	this.estado=Estado.RECIBIDO;
     	this.tipo=tipo;
     	this.resultados=new ArrayList<>();
     	this.responsable=analista;
-    	this.graficos=new ArrayList<>();
+    	this.muestras=new ArrayList<>();
+    	
     }
+    
+    public void agregarMuestras(Muestra muestra) {
+    	this.muestras.add(muestra);
+    }
+    
+    public void eliminarMuestras(Long id) {
+    	
+    }
+    
+    
     public Ensayo(Long id,String nombre) {
     	super(id);
 		this.nombre=nombre;
 	}
-	public void agregarGrafico(Imagen nuevaImagen) {
-        if (nuevaImagen != null) {
-            this.graficos.add(nuevaImagen);
-            System.out.println("Gráfico '" + nuevaImagen.getNombre() + "' adjuntado con éxito al ensayo.");
-        }
-    }
+
     public void procesarCumplimiento() {
         if (resultados == null || resultados.isEmpty()) {
             return;
@@ -63,7 +69,7 @@ public class Ensayo extends Persistible {
 
     public void finalizarEnsayo() {
         if (estanTodosLosItemsCargados()) {
-            this.estado = EstadoEnsayo.POR_VALIDAR;
+            this.estado = Estado.POR_VALIDAR;
             System.out.println("Ensayo " + nombre + " finalizado. Enviado a revisión.");
         } else {
             System.out.println("⚠️ No se puede finalizar: Quedan ítems sin cargar en la hoja de resultados.");
@@ -74,13 +80,7 @@ public class Ensayo extends Persistible {
         this.resultados.add(resultado);
     }
 
-    public List<Imagen> getGraficos() {
-        return this.graficos;
-    }
 
-    public void setGraficos(List<Imagen> graficos) {
-        this.graficos = graficos;
-    }
     public Resultado getResultadoXId(long id) {
         for (Resultado r : this.resultados) {
             if (r.getId() == id) {
@@ -113,10 +113,10 @@ public class Ensayo extends Persistible {
 	public void setEquipoUsado(String equipoUsado) {
 		this.equipoUsado = equipoUsado;
 	}
-	public EstadoEnsayo getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
-	public void setEstado(EstadoEnsayo estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 	public List<Resultado> getResultados() {

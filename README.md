@@ -3,14 +3,20 @@ Sistema de gestión de laboratorio para registrar, organizar y dar seguimiento a
 ---
 **PROGRAMA INTENSIVO- CODIGO MARIANO**
 ---
-## Tercera semana
+## Cuarta semana
 ### Objetivos
 
-- [x] Incorporar Maven 
-- [x] Clase Main que implemente el circuito planteado
+- [x] Diseñar estructura de Base de Datos. 
+- [x] Mapear entidades persistibles.
+- [x] Implementar Spring.
 
 
 ### DIAGRAMA UML
-**LabHelper_v5**
+**LabHelper_v6**
 
-![UML LabHelper_v5](src/main/resources/labHelper_v5.png)
+![UML LabHelper_v6](src/main/resources/uml/labHelper_v6.png) 
+
+### DIAGRAMA BASE DE DATOS
+Utilizando https://www.drawdb.app/. 
+
+![Diagrama](src/main/resources/database/diagrama.jpg) 

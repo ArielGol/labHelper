@@ -1,10 +1,11 @@
 package ar.com.codigomariano.labHelper.domain;
 
-public class NotaTexto {
+public class NotaTexto extends Persistible {
 	
 	private String contenido;
 	
-	public NotaTexto(String texto) {
+	public NotaTexto(Long id,String texto) {
+		super(id);
 		this.contenido=texto;
 	}
 

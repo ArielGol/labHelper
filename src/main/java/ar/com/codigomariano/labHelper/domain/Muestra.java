@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.com.codigomariano.labHelper.domain.Cliente;
-import ar.com.codigomariano.labHelper.domain.Resultado;
-import ar.com.codigomariano.labHelper.domain.Usuario;
-import ar.com.codigomariano.labHelper.enums.EstadoMuestra;
+import ar.com.codigomariano.labHelper.enums.Estado;
 
 
 
@@ -17,7 +14,7 @@ public class Muestra extends Persistible{
     private Cliente cliente;
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
-    private EstadoMuestra estado;
+    private Estado estado;
     private List<Ensayo> ensayosAsignados;
     private NotaTexto descripcion;
     private static int next_id=1;
@@ -29,7 +26,8 @@ public class Muestra extends Persistible{
     	this.cliente=cliente;
     	this.fechaIngreso=LocalDate.now();
     	this.ensayosAsignados=new ArrayList<Ensayo>();
-    	this.estado=EstadoMuestra.RECIBIDA;
+    	this.estado=Estado.RECIBIDO;
+ 
   
     }
     
@@ -61,11 +59,11 @@ public class Muestra extends Persistible{
         double suma = 0.0;
         for (Ensayo ensayo : ensayosAsignados) {
             switch (ensayo.getEstado()) {
-                case PENDIENTE: suma += 0.0; break;
-                case EN_CURSO: suma += 30.0; break;
+                case RECIBIDO: suma += 0.0; break;
+                case EN_ANALISIS: suma += 30.0; break;
                 case POR_VALIDAR: suma += 75.0; break;
                 case APROBADO: suma += 100.0; break;
-                case RECHAZADO: suma += 10.0; break;
+          
             }
         }
         return Math.round((suma / ensayosAsignados.size()) * 100.0) / 100.0;
@@ -104,11 +102,11 @@ public class Muestra extends Persistible{
 		this.fechaSalida = fechaSalida;
 	}
 
-	public EstadoMuestra getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(EstadoMuestra estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 
