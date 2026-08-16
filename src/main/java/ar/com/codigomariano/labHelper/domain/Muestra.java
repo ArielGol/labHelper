@@ -10,14 +10,15 @@ import ar.com.codigomariano.labHelper.enums.Estado;
 
 public class Muestra extends Persistible{
 
-    private String codigoMuestra;
+    private static final double VALOR_INICIAL = 0;
+	private String codigoMuestra;
     private Cliente cliente;
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
     private Estado estado;
     private List<Ensayo> ensayosAsignados;
     private NotaTexto descripcion;
-    private static int next_id=1;
+   
 
     public Muestra(Long id,Cliente cliente,NotaTexto descripcion) {
     	super(id);
@@ -39,11 +40,11 @@ public class Muestra extends Persistible{
 
     public void eliminarEnsayo(String nombre) {
         Ensayo aEliminar = null;
-        for (Ensayo ensayo : ensayosAsignados) {
-            if (ensayo.getNombre().equalsIgnoreCase(nombre)) {
-                aEliminar = ensayo;
-                break;
-            }
+        int index=0;
+        while(index<this.ensayosAsignados.size()) {
+        	Ensayo e=this.ensayosAsignados.get(index);
+        	if(e.getNombre().equalsIgnoreCase(nombre)) aEliminar=e;
+        	index++;
         }
         if (aEliminar != null) {
             this.ensayosAsignados.remove(aEliminar);
@@ -54,18 +55,12 @@ public class Muestra extends Persistible{
     }
     public double calcularProgreso() {
         if (ensayosAsignados == null || ensayosAsignados.isEmpty()) {
-            return 0.0;
+            return VALOR_INICIAL;
         }
-        double suma = 0.0;
+        double suma = VALOR_INICIAL;
         for (Ensayo ensayo : ensayosAsignados) {
-            switch (ensayo.getEstado()) {
-                case RECIBIDO: suma += 0.0; break;
-                case EN_ANALISIS: suma += 30.0; break;
-                case POR_VALIDAR: suma += 75.0; break;
-                case APROBADO: suma += 100.0; break;
-          
+        	suma=ensayo.getEstado().getProgreso();
             }
-        }
         return Math.round((suma / ensayosAsignados.size()) * 100.0) / 100.0;
     }
 
@@ -74,8 +69,7 @@ public class Muestra extends Persistible{
 	}
 
 	public void setCodigoMuestra() {
-		this.codigoMuestra = "MUE-"+LocalDate.now().getYear()+"-"+next_id;
-		next_id++;
+		this.codigoMuestra = "MUE-"+LocalDate.now().getYear()+"-"+getId();
 	}
 
 	public Cliente getCliente() {

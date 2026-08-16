@@ -20,14 +20,16 @@ public class Validacion extends Persistible {
 	
 	}
 	
+	public void mostrarMotivo(String motivo) {
+		this.observacionesFinales.setContenido(motivo);
+		System.out.println(LocalDateTime.now()+": "+getObservacionesFinales());
+	}
+	
 	public void aprobarEnsayo(String motivo) {
 		if(this.ensayoEvaluado.getEstado().equals(Estado.APROBADO)) {
-			LocalDateTime.now();
-			this.observacionesFinales.setContenido(motivo);
-			System.out.println(motivo);
-		} else {
-			this.observacionesFinales.setContenido(motivo);
-			System.out.println(motivo);
+			mostrarMotivo(motivo);
+		} else if(this.ensayoEvaluado.getEstado().equals(Estado.RECHAZADO)) {
+			mostrarMotivo(motivo);
 		}
 	}
 

@@ -14,6 +14,7 @@ public class Password extends Persistible {
 	}
 
 	public void setValor(String valor) {
+		//this.valor=encriptar(valor);
 		this.valor = valor;
 	}
 

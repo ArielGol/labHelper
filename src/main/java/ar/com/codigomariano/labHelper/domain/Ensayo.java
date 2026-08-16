@@ -52,19 +52,22 @@ public class Ensayo extends Persistible {
             return;
         }
         for (Resultado r : resultados) {
-            r.calcularSiCumple(); 
+            r.calcular(); 
         }
         System.out.println("Cálculo de límites ejecutado para el ensayo: " + nombre);
     }
 
     public boolean estanTodosLosItemsCargados() {
         if (resultados == null || resultados.isEmpty()) return false;
-        for (Resultado r : resultados) {
-            if (r.getValorObtenido() == null || r.getValorObtenido() == 0.0) {
-                return false;
-            }
+        boolean estaCargado=true;
+        int index=0;
+        while(index<this.resultados.size()&& estaCargado) {
+        	 Resultado r = this.resultados.get(index);
+        	 if(!r.tieneValor()) estaCargado=false;
+        	 index++;
         }
-        return true;
+        return estaCargado;
+    
     }
 
     public void finalizarEnsayo() {
@@ -82,12 +85,14 @@ public class Ensayo extends Persistible {
 
 
     public Resultado getResultadoXId(long id) {
-        for (Resultado r : this.resultados) {
-            if (r.getId() == id) {
-                return r; 
-            }
-        }
-        return null; 
+    	Resultado encontrado=null;
+    	int index=0;
+    	while(index<this.resultados.size()) {
+    		Resultado r=this.resultados.get(index);
+    		if(r.getId()==id) encontrado=r;
+    		index++;
+    	}
+    	return encontrado;
     }
 	public String getNombre() {
 		return nombre;

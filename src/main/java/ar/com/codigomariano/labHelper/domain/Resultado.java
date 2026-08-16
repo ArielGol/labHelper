@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Resultado extends Persistible {
  
+	private static final Double VALOR_POR_DEFECTO = 0.0;
 	private String parametro;
     private String unidad;
     private Double valorMaximo;
@@ -26,7 +27,7 @@ public class Resultado extends Persistible {
 
 
 
-	 public void calcularSiCumple() {
+	 public void calcular() {
 		 if(this.valorObtenido!=null) {
 			 this.cumple = (this.valorObtenido >= this.valorMinimo && this.valorObtenido <= this.valorMaximo);
 		  }
@@ -122,6 +123,12 @@ public class Resultado extends Persistible {
     public void setGraficos(List<Imagen> graficos) {
         this.graficos = graficos;
     }
+
+
+
+	public boolean tieneValor() {
+		return this.valorObtenido !=null && this.valorObtenido !=VALOR_POR_DEFECTO;
+	}
 	
 
 

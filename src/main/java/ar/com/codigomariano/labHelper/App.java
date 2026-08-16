@@ -183,7 +183,7 @@ public class App {
                     Resultado rSelected = resList.get(fila - 1);
                     System.out.print("  Valor numérico obtenido: ");
                     rSelected.setValorObtenido(sc.nextDouble());
-                    rSelected.calcularSiCumple(); // Ejecuta cálculo matemático automático
+                    rSelected.calcular(); // Ejecuta cálculo matemático automático
                     
                     System.out.print("  ¿Agregar observación en la fila? (s/n): ");
                     if (sc.next().equalsIgnoreCase("s")) {
