@@ -4,8 +4,7 @@ public class NotaTexto extends Persistible {
 	
 	private String contenido;
 	
-	public NotaTexto(Long id,String texto) {
-		super(id);
+	public NotaTexto(String texto) {
 		this.contenido=texto;
 	}
 

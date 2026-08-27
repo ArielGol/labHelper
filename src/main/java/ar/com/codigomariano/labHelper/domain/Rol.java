@@ -1,11 +1,17 @@
 package ar.com.codigomariano.labHelper.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name= "ROLES")
 public class Rol extends Persistible {
 	
+	@Column(name = "NOMBRE")
 	private String nombre;
 	
-	public Rol(Long id,String nombre) {
-		super(id);
+	public Rol(String nombre) {
 		setNombre(nombre);
 	}
 

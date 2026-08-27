@@ -6,15 +6,13 @@ public class Imagen extends Persistible {
 	private String contentType;
 	private byte[] contenido;
 	
-	public Imagen(Long id, String nombre, String contentType, byte[] contenido) {
-        super(id);
+	public Imagen(String nombre, String contentType, byte[] contenido) {
         this.nombre = nombre;
         this.contentType = contentType;
         this.contenido = contenido;
     }
 
-    public Imagen(Long id, String nombre, byte[] contenido) {
-        super(id);
+    public Imagen(String nombre, byte[] contenido) {
         this.nombre = nombre;
         this.contentType = "image/png"; 
         this.contenido = contenido;

@@ -1,11 +1,17 @@
 package ar.com.codigomariano.labHelper.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name= "PASSWORDS")
 public class Password extends Persistible {
 	
+	@Column(name= "VALOR")
 	private String valor;
 	
-	public Password (Long id,String contrasenia) {
-		super(id);
+	public Password (String contrasenia) {
 		setValor(contrasenia);
 	}
 

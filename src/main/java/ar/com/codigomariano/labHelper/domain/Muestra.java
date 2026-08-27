@@ -20,8 +20,7 @@ public class Muestra extends Persistible{
     private NotaTexto descripcion;
    
 
-    public Muestra(Long id,Cliente cliente,NotaTexto descripcion) {
-    	super(id);
+    public Muestra(Cliente cliente,NotaTexto descripcion) {
     	setCodigoMuestra();
     	setDescripcion(descripcion);
     	this.cliente=cliente;

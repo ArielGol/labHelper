@@ -13,8 +13,7 @@ public class Usuario extends Persistible {
     private String nombreUsuario;
     private LocalDateTime fechaCreacion;
 
-    public Usuario(Long id,String userName,String nombre,String email,Password password){
-    	super(id);
+    public Usuario(String userName,String nombre,String email,Password password){
     	this.nombreUsuario=userName;
     	this.nombreCompleto=nombre;
     	this.email=email;

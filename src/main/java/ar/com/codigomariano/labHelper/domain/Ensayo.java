@@ -21,8 +21,7 @@ public class Ensayo extends Persistible {
     private List<Muestra> muestras;
    
 
-    public Ensayo(Long id, String nombre, TipoEnsayo tipo, Usuario analista) {
-    	super(id);
+    public Ensayo(String nombre, TipoEnsayo tipo, Usuario analista) {
     	this.nombre=nombre;
     	this.fechaEjecucion=LocalDate.now();
     	this.estado=Estado.RECIBIDO;
@@ -42,8 +41,7 @@ public class Ensayo extends Persistible {
     }
     
     
-    public Ensayo(Long id,String nombre) {
-    	super(id);
+    public Ensayo(String nombre) {
 		this.nombre=nombre;
 	}
 

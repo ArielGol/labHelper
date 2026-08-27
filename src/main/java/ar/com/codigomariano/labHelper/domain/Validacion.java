@@ -12,8 +12,7 @@ public class Validacion extends Persistible {
 	private Resultado resultadoValidado;
 	
 	
-	public Validacion(Long id,Ensayo ensayoEvaluado,Usuario supervisor) {
-		super(id);
+	public Validacion(Ensayo ensayoEvaluado,Usuario supervisor) {
 		this.ensayoEvaluado=ensayoEvaluado;
 		this.supervisor=supervisor;
 	

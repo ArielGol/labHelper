@@ -15,8 +15,7 @@ public class Resultado extends Persistible {
     private NotaTexto observaciones;
     private List<Imagen> graficos;
 
-    public Resultado(Long id,String parametro,String unidad,Double min,Double max) {
- 		super(id);
+    public Resultado(String parametro,String unidad,Double min,Double max) {
  		this.parametro=parametro;
  		this.unidad=unidad;
  		this.valorMaximo=max;

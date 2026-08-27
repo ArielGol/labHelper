@@ -8,8 +8,7 @@ public class Cliente extends Persistible {
     private TipoCliente tipo;
     private Usuario cliente;
 
-    public Cliente(Long codigo, String nombreEmpresa, TipoCliente tipo, Usuario cliente) {
-        super(codigo);
+    public Cliente(String nombreEmpresa, TipoCliente tipo, Usuario cliente) {
         setNombreEmpresa(nombreEmpresa);
         this.tipo = tipo;
         setCliente(cliente);
