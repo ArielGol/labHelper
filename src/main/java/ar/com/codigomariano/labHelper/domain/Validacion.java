@@ -2,60 +2,76 @@ package ar.com.codigomariano.labHelper.domain;
 
 import java.time.LocalDateTime;
 
-import ar.com.codigomariano.labHelper.enums.Estado;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name= "VALIDACIONES")
 public class Validacion extends Persistible {
-
-	private Ensayo ensayoEvaluado;
-	private NotaTexto observacionesFinales;
-	private Usuario supervisor;
-	private Resultado resultadoValidado;
 	
-	
-	public Validacion(Ensayo ensayoEvaluado,Usuario supervisor) {
-		this.ensayoEvaluado=ensayoEvaluado;
-		this.supervisor=supervisor;
-	
-	
-	}
-	
-	public void mostrarMotivo(String motivo) {
-		this.observacionesFinales.setContenido(motivo);
-		System.out.println(LocalDateTime.now()+": "+getObservacionesFinales());
-	}
-	
-	public void aprobarEnsayo(String motivo) {
-		if(this.ensayoEvaluado.getEstado().equals(Estado.APROBADO)) {
-			mostrarMotivo(motivo);
-		} else if(this.ensayoEvaluado.getEstado().equals(Estado.RECHAZADO)) {
-			mostrarMotivo(motivo);
-		}
-	}
+    @Column(name = "APROBADO")
+    private boolean aprobado;
 
-	public Ensayo getEnsayoEvaluado() {
-		return ensayoEvaluado;
-	}
+    @Column(name = "FECHA_FIRMA")
+    private LocalDateTime fechaFirma;
 
-	public void setEnsayoEvaluado(Ensayo ensayoEvaluado) {
-		this.ensayoEvaluado = ensayoEvaluado;
-	}
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "NOTA_TEXTO_ID", nullable = true)
+    private NotaTexto observacionesFinales;
 
-	public NotaTexto getObservacionesFinales() {
-		return observacionesFinales;
-	}
+    @ManyToOne
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario supervisor;
 
-	public void setObservacionesFinales(String observacionesFinales) {
-		this.observacionesFinales.setContenido(observacionesFinales);
-	}
+    @ManyToOne
+    @JoinColumn(name = "RESULTADO_ID", nullable = false)
+    private Resultado resultadoValidado;
+    
+    //Sólo para Hibernate
+    Validacion(){
+    	
+    }
 
-	public Usuario getSupervisor() {
-		return supervisor;
-	}
+    public Validacion(Resultado resultadoValidado, Usuario supervisor) {
+        this.resultadoValidado = resultadoValidado;
+        this.supervisor = supervisor;
+    }
 
-	public void setSupervisor(Usuario supervisor) {
-		this.supervisor = supervisor;
-	}
-	
+    public void mostrarMotivo(String motivo) {
+        if (this.resultadoValidado.getEnsayo().estadoHabilitadoParaMostrarInforme()) {
+            this.observacionesFinales.setContenido(motivo);
+            System.out.println(LocalDateTime.now() + ": " + getObservacionesFinales());
+        }
+    }
+
+    public NotaTexto getObservacionesFinales() {
+        return observacionesFinales;
+    }
+
+    public void setObservacionesFinales(String observacionesFinales) {
+        this.observacionesFinales.setContenido(observacionesFinales);
+    }
+
+    public Usuario getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Usuario supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public Resultado getResultadoValidado() {
+        return resultadoValidado;
+    }
+
+    public void setResultadoValidado(Resultado resultadoValidado) {
+        this.resultadoValidado = resultadoValidado;
+    }
 	
 	
 

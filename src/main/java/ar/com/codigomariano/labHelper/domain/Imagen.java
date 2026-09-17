@@ -1,10 +1,26 @@
 package ar.com.codigomariano.labHelper.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name= "IMAGENES")
 public class Imagen extends Persistible {
 	
+	@Column(name= "NOMBRE")
 	private String nombre;
+	
+	@Column(name= "CONTENT_TYPE")
 	private String contentType;
+	
+	@Column(name= "CONTENIDO")
 	private byte[] contenido;
+	
+	//Sólo para Hibernate
+	Imagen(){
+		
+	}
 	
 	public Imagen(String nombre, String contentType, byte[] contenido) {
         this.nombre = nombre;

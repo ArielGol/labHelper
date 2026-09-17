@@ -3,24 +3,62 @@ package ar.com.codigomariano.labHelper.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name ="RESULTADOS")
 public class Resultado extends Persistible {
  
 	private static final Double VALOR_POR_DEFECTO = 0.0;
+	
+	@Column(name= "PARAMETRO")
 	private String parametro;
+	
+	@Column(name= "UNIDAD")
     private String unidad;
+	
+	@Column(name= "VALOR_MAXIMO")
     private Double valorMaximo;
+	
+	@Column(name= "VALOR_MINIMO")
     private Double valorMinimo;
+	
+	@Column(name= "VALOR_OBTENIDO")
     private Double valorObtenido;
+	
+	@Column(name= "CUMPLE")
     private boolean cumple;
+	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name= "NOTA_TEXTO_ID")
     private NotaTexto observaciones;
+	
+	@OneToMany(cascade=CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name= "RESULTADO_ID", referencedColumnName = "ID", nullable = false)
     private List<Imagen> graficos;
+	
+	@ManyToOne
+	@JoinColumn(name = "ENSAYO_ID", nullable = false)
+	private Ensayo ensayo;
 
-    public Resultado(String parametro,String unidad,Double min,Double max) {
+	//Sólo para Hibernate
+	Resultado(){
+		
+	}
+
+	public Resultado(String parametro,String unidad,Double min,Double max) {
  		this.parametro=parametro;
  		this.unidad=unidad;
  		this.valorMaximo=max;
  		this.valorMinimo=min;
- 		this.graficos=new ArrayList<>();
+ 		this.graficos=new ArrayList<Imagen>();
  		
  	}
 
@@ -129,6 +167,17 @@ public class Resultado extends Persistible {
 		return this.valorObtenido !=null && this.valorObtenido !=VALOR_POR_DEFECTO;
 	}
 	
+	public Ensayo getEnsayo() {
+			return ensayo;
+		}
+	
+	public void setEnsayo(Ensayo ensayo) {
+			this.ensayo = ensayo;
+		}
+
+
+
+
 
 
 }

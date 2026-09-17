@@ -6,19 +6,57 @@ import java.util.List;
 
 import ar.com.codigomariano.labHelper.enums.Estado;
 import ar.com.codigomariano.labHelper.enums.TipoEnsayo;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
-
+@Entity
+@Table(name= "ENSAYOS")
 public class Ensayo extends Persistible {
 
-    private String nombre;
+    @Column(name ="NOMBRE")
+	private String nombre;
+    
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name= "NOTA_TEXTO_ID", nullable = true)
     private NotaTexto descripcion;
+    
+    @Column(name= "FECHA_EJECUCION")
     private LocalDate fechaEjecucion;
+    
+    @Column(name= "EQUIPO_USADO")
     private String equipoUsado;
+    
+   
+    @Column(name= "ESTADO_ID")
+    @Enumerated(EnumType.ORDINAL)
     private Estado estado;
+    
+    @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name= "ENSAYO_ID", referencedColumnName = "ID", nullable = false)
     private List<Resultado> resultados;
+    
+   
+    @Column(name= "TIPO_DE_ENSAYO")
+    @Enumerated(EnumType.STRING)
     private TipoEnsayo tipo;
+    
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name= "USUARIO_ID", nullable = false)
     private Usuario responsable;
-    private List<Muestra> muestras;
+    
+    //Sólo para Hibernate
+    Ensayo(){
+    	
+    }
+    
+    
    
 
     public Ensayo(String nombre, TipoEnsayo tipo, Usuario analista) {
@@ -28,17 +66,21 @@ public class Ensayo extends Persistible {
     	this.tipo=tipo;
     	this.resultados=new ArrayList<>();
     	this.responsable=analista;
-    	this.muestras=new ArrayList<>();
     	
     }
     
-    public void agregarMuestras(Muestra muestra) {
-    	this.muestras.add(muestra);
+    public boolean esAprobado() {
+    	return Estado.APROBADO.equals(this.estado);
     }
     
-    public void eliminarMuestras(Long id) {
-    	
+    public boolean esRechazado() {
+    	return Estado.RECHAZADO.equals(this.estado);
     }
+    
+    public boolean estadoHabilitadoParaMostrarInforme() {
+    	return esAprobado()||esRechazado();
+    }
+    
     
     
     public Ensayo(String nombre) {

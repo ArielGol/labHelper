@@ -5,25 +5,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.codigomariano.labHelper.enums.Estado;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 
-
+@Entity
+@Table(name= "MUESTRAS")
 public class Muestra extends Persistible{
 
     private static final double VALOR_INICIAL = 0;
+    
+    @Column(name= "CODIGO_MUESTRA")
 	private String codigoMuestra;
-    private Cliente cliente;
+   
+    
+    @Column(name= "FECHA_INGRESO")
     private LocalDate fechaIngreso;
+    
+    @Column(name= "FECHA_SALIDA")
     private LocalDate fechaSalida;
+    
+    
+    @Column(name = "ESTADO_ID")
+    @Enumerated(EnumType.ORDINAL)
     private Estado estado;
+    
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MUESTRA_ID", referencedColumnName = "ID", nullable = false)
     private List<Ensayo> ensayosAsignados;
+    
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "NOTA_TEXTO_ID", nullable = false)
     private NotaTexto descripcion;
+    
+    //Sólo para Hibernate
+    Muestra(){
+    	
+    }
    
 
-    public Muestra(Cliente cliente,NotaTexto descripcion) {
+    public Muestra(NotaTexto descripcion) {
     	setCodigoMuestra();
     	setDescripcion(descripcion);
-    	this.cliente=cliente;
     	this.fechaIngreso=LocalDate.now();
     	this.ensayosAsignados=new ArrayList<Ensayo>();
     	this.estado=Estado.RECIBIDO;
@@ -71,13 +103,6 @@ public class Muestra extends Persistible{
 		this.codigoMuestra = "MUE-"+LocalDate.now().getYear()+"-"+getId();
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 
 	public LocalDate getFechaIngreso() {
 		return fechaIngreso;
