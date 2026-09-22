@@ -14,11 +14,6 @@ public abstract class Persistible {
 	private Long id;
 	
 
-	//Sólo para Hibernate
-	Persistible(){
-		
-	}
-	
 	public Long getId() {
 		return id;
 	}

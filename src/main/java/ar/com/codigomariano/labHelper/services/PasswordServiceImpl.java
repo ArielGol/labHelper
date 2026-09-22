@@ -1,19 +1,21 @@
 package ar.com.codigomariano.labHelper.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import ar.com.codigomariano.labHelper.domain.Password;
 import ar.com.codigomariano.labHelper.repositories.PasswordRepository;
 
+@Service
 public class PasswordServiceImpl implements PasswordService {
+	
+	@Autowired
+	private PasswordRepository passwordRepository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
-	private final PasswordRepository passwordRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public PasswordServiceImpl(PasswordRepository passwordRepository, PasswordEncoder passwordEncoder) {
-        this.passwordRepository = passwordRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public Password crearPassword(String valorPlano) {
