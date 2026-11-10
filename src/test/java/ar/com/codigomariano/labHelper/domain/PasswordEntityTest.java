@@ -5,16 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import ar.com.codigomariano.labHelper.utilities.EntityHelper;
+
 public class PasswordEntityTest extends BaseEntityTest<Password>{
 	
 	@Override
 	protected Password crearEntidadValida() {
-		return new Password("Ariel336549");
+		return EntityHelper.crearPasswordValido();
 	}
 
 	@Override
 	protected void validarEntidadExitosa(Password password) {
-		assertEquals("Ariel336549", password.getValor());
+		assertEquals(EntityHelper.PASSWORD_VALIDO, password.getValor());
 		
 	}
 	
@@ -38,7 +40,7 @@ public class PasswordEntityTest extends BaseEntityTest<Password>{
 
 	@Test
 	public void testSetValorExitosamente() {
-		Password password=new Password("Ariel336549");
+		Password password=EntityHelper.crearPasswordValido();
 		password.setValor("OtraClave123");
 
 		assertEquals("OtraClave123", password.getValor());
@@ -46,7 +48,7 @@ public class PasswordEntityTest extends BaseEntityTest<Password>{
 
 	@Test
 	public void testSetValorNuloLanzaExcepcion() {
-		Password password=new Password("Ariel336549");
+		Password password=EntityHelper.crearPasswordValido();
 
 		IllegalArgumentException ex=assertThrows(IllegalArgumentException.class, ()-> password.setValor(null));
 		assertEquals(Password.VALOR_OBLIGATORIO, ex.getMessage());
@@ -54,10 +56,10 @@ public class PasswordEntityTest extends BaseEntityTest<Password>{
 
 	@Test
 	public void testSetValorInvalidoNoCambiaElValor() {
-		Password password=new Password("Ariel336549");
+		Password password=EntityHelper.crearPasswordValido();
 
 		assertThrows(IllegalArgumentException.class, ()-> password.setValor(""));
-		assertEquals("Ariel336549", password.getValor());
+		assertEquals(EntityHelper.PASSWORD_VALIDO, password.getValor());
 	}
 
 

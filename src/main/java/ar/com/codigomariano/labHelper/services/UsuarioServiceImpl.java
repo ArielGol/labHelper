@@ -10,7 +10,7 @@ import ar.com.codigomariano.labHelper.domain.Usuario;
 import ar.com.codigomariano.labHelper.repositories.UsuarioRepository;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl extends CRUDServiceImpl<Usuario, UsuarioRepository> implements UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository repositorio;

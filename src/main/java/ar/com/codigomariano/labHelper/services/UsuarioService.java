@@ -2,7 +2,7 @@ package ar.com.codigomariano.labHelper.services;
 
 import ar.com.codigomariano.labHelper.domain.Usuario;
 
-public interface UsuarioService {
+public interface UsuarioService extends CRUDService<Usuario> {
 	
 	public void guardar(Usuario usuario);
 	

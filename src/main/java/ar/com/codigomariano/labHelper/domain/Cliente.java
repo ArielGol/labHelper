@@ -57,7 +57,7 @@ public class Cliente extends Persistible {
     public void eliminarMuestra(String codigoMuestra) {
         Muestra aEliminar = null;
         int index = 0;
-        while (index < this.muestras.size()) {
+        while (index < this.muestras.size() && aEliminar==null) {
             Muestra m = this.muestras.get(index);
             if (m.getCodigoMuestra().equalsIgnoreCase(codigoMuestra)) aEliminar = m;
             index++;

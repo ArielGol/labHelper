@@ -9,7 +9,7 @@ import ar.com.codigomariano.labHelper.helpers.ValidationUtils;
 import ar.com.codigomariano.labHelper.repositories.PasswordRepository;
 
 @Service
-public class PasswordServiceImpl implements PasswordService {
+public class PasswordServiceImpl extends CRUDServiceImpl<Password, PasswordRepository> implements PasswordService {
 	
 	public final static String PASSWORD_OBLIGATORIA="La contraseña es obligatoria.";
 	public final static String PASSWORD_MAX_LONGITUD="La contraseña no debe superar los %d caracteres.";

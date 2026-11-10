@@ -38,8 +38,7 @@ public class Ensayo extends Persistible {
     @Enumerated(EnumType.ORDINAL)
     private Estado estado;
     
-    @OneToMany(cascade= CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name= "ENSAYO_ID", referencedColumnName = "ID", nullable = false)
+    @OneToMany(mappedBy = "ensayo", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Resultado> resultados;
     
    
@@ -85,6 +84,7 @@ public class Ensayo extends Persistible {
     
     public Ensayo(String nombre) {
 		this.nombre=nombre;
+		this.resultados=new ArrayList<>();
 	}
 
     public void procesarCumplimiento() {
@@ -120,7 +120,8 @@ public class Ensayo extends Persistible {
     }
 
     public void agregarResultado(Resultado resultado) {
-        this.resultados.add(resultado);
+    	resultado.setEnsayo(this);
+    	this.resultados.add(resultado);
     }
 
 
@@ -169,6 +170,9 @@ public class Ensayo extends Persistible {
 	}
 	public void setResultados(List<Resultado> resultados) {
 		this.resultados = resultados;
+		for (int i = 0; i < resultados.size(); i++) {
+			resultados.get(i).setEnsayo(this);
+		}
 	}
 	public TipoEnsayo getTipo() {
 		return tipo;

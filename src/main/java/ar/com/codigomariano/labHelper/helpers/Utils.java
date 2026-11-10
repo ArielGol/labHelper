@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Utils {
 	
-	private final static String DEFAULT_USERNAME_PREFIX="user";
+	public final static String DEFAULT_USERNAME_PREFIX="user";
 	
 	private final static Random r=new Random(System.currentTimeMillis());
 	

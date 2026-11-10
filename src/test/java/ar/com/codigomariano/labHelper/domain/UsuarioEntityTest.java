@@ -7,19 +7,20 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
+import ar.com.codigomariano.labHelper.utilities.EntityHelper;
+
 public class UsuarioEntityTest extends BaseEntityTest<Usuario> {
 	
 	@Override
 	protected Usuario crearEntidadValida() {
-		Password password=new Password("Ariel336549");
-		return new Usuario("Ariel","arielgolub@gmail.com",password);
+		return EntityHelper.crearUsuarioValido();
 	}
 
 	@Override
 	protected void validarEntidadExitosa(Usuario usuario) {
 		assertNotNull(usuario.getFechaCreacion());
 		assertNotNull(usuario.getNombreUsuario());
-		assertEquals("arielgolub@gmail.com", usuario.getEmail());
+		assertEquals(EntityHelper.EMAIL_VALIDO, usuario.getEmail());
 	}
 		
 		
@@ -32,7 +33,7 @@ public class UsuarioEntityTest extends BaseEntityTest<Usuario> {
 	@Test
 	public void testCrearUsuarioEmailVacio() {
 		try {
-			new Usuario("Ariel","",new Password("Ariel336549"));
+			new Usuario(EntityHelper.NOMBRE_VALIDO,"",EntityHelper.crearPasswordValido());
 		}catch(IllegalArgumentException ex) {
 			assertEquals(Usuario.EMAIL_OBLIGATORIO, ex.getMessage());
 		}
