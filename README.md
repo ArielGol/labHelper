@@ -3,12 +3,16 @@ Sistema de gestión de laboratorio para registrar, organizar y dar seguimiento a
 ---
 **PROGRAMA INTENSIVO- CODIGO MARIANO**
 ---
-## Cuarta semana
+## Septima semana
 ### Objetivos
 
-- [x] Diseñar estructura de Base de Datos. 
-- [x] Mapear entidades persistibles.
-- [x] Implementar Spring.
+- [x] Comprender el rol de la **capa de presentación** dentro de una aplicación en arquitecturas por capas. 
+- [x] Crear **Controller** que permitan exponer la funcionalidad de tu aplicación hacia el exterior.
+- [x] Conectar correctamente la capa de **presentación, servicios y repositorios,** respetando las responsabilidades de cada capa.
+- [x] Probar el funcionamiento completo de tu aplicación verificando el flujo **vista->lógica de negocio->base de datos**.
+- [x] Implementar al menos un **circuito funcional completo** de tu aplicación, desde la interración externa hasta la persistencia en base de datos.
+
+
 
 
 ### DIAGRAMA UML
